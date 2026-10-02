@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>মেসের হিসাব</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#eef1f7;--card:#fff;--ink:#16213a;--mute:#66728d;--line:#d8dfec;--zebra:#f4f6fb;--inp:#f2f5fa;--a1:#4f5bd5;--a2:#27308a;
+--gG:linear-gradient(150deg,#12b072 0%,#067a52 48%,#03422d 100%);--gR:linear-gradient(150deg,#f04e68 0%,#c4122f 48%,#6e0820 100%);--gA:linear-gradient(135deg,var(--a1),var(--a2));--g:#059669;--r:#e11d48}
+:root[data-acc=teal]{--a1:#12a7b5;--a2:#0a3f5c}:root[data-acc=violet]{--a1:#7c4dff;--a2:#2e1175}:root[data-acc=ocean]{--a1:#2f6fe4;--a2:#0f2a6b}:root[data-acc=graphite]{--a1:#4b5563;--a2:#0b1020}:root[data-acc=gold]{--a1:#b98a2c;--a2:#4f3408}:root[data-acc=rose]{--a1:#c0587a;--a2:#5a1633}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1322;--card:#172038;--ink:#e8edf8;--mute:#9aa6c4;--line:#27335a;--zebra:#1b2644;--inp:#212c4d;--g:#34d399;--r:#fb7185}}
+:root[data-theme=dark]{--bg:#0d1322;--card:#172038;--ink:#e8edf8;--mute:#9aa6c4;--line:#27335a;--zebra:#1b2644;--inp:#212c4d;--g:#34d399;--r:#fb7185}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{overflow-x:hidden;max-width:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;font-size:16px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 30px)}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--inp);border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:none;overflow:hidden;line-height:1.35;display:block}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--a1);outline-offset:1px}
+header{position:sticky;top:0;z-index:5;background:var(--gA);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 10px;box-shadow:0 6px 18px -8px rgba(10,15,40,.5)}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}.top b{flex:1;font-size:19px}
+#av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.25) center/cover;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+#gear{background:rgba(255,255,255,.2);border:0;border-radius:10px;width:38px;height:34px;font-size:18px;color:#fff;cursor:pointer}
+.tabs{display:flex;gap:4px;background:rgba(0,0,0,.2);padding:3px;border-radius:12px}
+.tabs button{flex:1;border:0;background:none;color:#fff;padding:8px 2px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer}
+.tabs button.on{background:#fff;color:var(--a2)}
+main{max-width:720px;margin:0 auto;padding:12px}
+section{display:none}section.on{display:block}
+h2{font-size:24px;margin:2px 2px 10px;color:var(--a1)}
+.mbar{display:grid;grid-template-columns:150px 1fr;gap:8px;margin-bottom:12px}
+.hero{position:relative;overflow:hidden;border-radius:18px;padding:16px;color:#fff;margin-bottom:12px;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 24px -10px rgba(10,20,40,.6),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -12px 24px -14px rgba(0,0,0,.35)}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(170deg,rgba(255,255,255,.16),rgba(255,255,255,0) 38%);pointer-events:none}
+.hero.g{background:var(--gG)}.hero.r{background:var(--gR)}.hero.a{background:var(--gA)}
+.hero .big{font-size:34px;font-weight:700;line-height:1.2}.hero .lb{font-size:14px;opacity:.9}
+.hero .ln{display:flex;justify-content:space-between;font-size:15px;opacity:.95;padding-top:3px}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi .big{font-size:24px}
+.tbl{border-radius:16px;border:1px solid var(--line);background:var(--card);overflow:hidden}
+table{border-collapse:collapse;width:100%;table-layout:fixed}
+th{background:var(--gA);color:#fff;padding:9px 6px;font-weight:600;font-size:14px;text-align:left}
+td{padding:5px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:var(--zebra)}
+tr.fri td.dl{color:var(--g);font-weight:700}
+td.dl{font-weight:600;font-size:14px;padding-top:12px}
+td input,td select,td textarea{padding:6px 6px;border-radius:8px;font-size:15px}
+select.m{font-weight:700;text-align:center;padding-right:0}select.m.z{color:var(--r);border-color:var(--r)}select.m.f{color:var(--g);border-color:var(--g)}
+tfoot td{background:var(--gA);color:#fff;font-weight:700;padding:10px 8px}
+.del{background:none;border:0;color:var(--r);font-size:19px;padding:6px;cursor:pointer;border-radius:8px;line-height:1}
+.btn{display:block;width:100%;margin-top:12px;padding:12px;border:0;border-radius:12px;background:var(--gA);color:#fff;font-weight:600;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.empty{padding:20px;text-align:center;color:var(--mute)}
+.item{display:grid;grid-template-columns:1fr 104px;gap:8px;padding:12px;border-radius:16px;margin-bottom:10px;color:#fff;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 8px 18px -10px rgba(10,20,40,.65),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -10px 20px -12px rgba(0,0,0,.35)}
+.item::before{content:'';position:absolute;inset:0;background:linear-gradient(170deg,rgba(255,255,255,.15),rgba(255,255,255,0) 38%);pointer-events:none}
+.item.p{background:var(--gG)}.item.u{background:var(--gR)}
+.item input,.item textarea{background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.38);color:#fff;position:relative}
+::placeholder{color:var(--mute)}.item ::placeholder{color:rgba(255,255,255,.72)}
+.bar{grid-column:1/-1;display:flex;gap:8px;align-items:center;position:relative}
+.tog{flex:1;border:0;border-radius:10px;padding:9px;background:#fff;font-weight:700;cursor:pointer}
+.item.p .tog{color:#047857}.item.u .tog{color:#be123c}.item .del{color:#fff;background:rgba(255,255,255,.2)}
+.sel{display:flex;gap:6px;margin-bottom:8px}
+.sel button{flex:1;padding:9px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);font-weight:600;cursor:pointer}
+.sel button.on.i{background:var(--gG);border-color:transparent;color:#fff}.sel button.on.e{background:var(--gR);border-color:transparent;color:#fff}
+.add,.cardx{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:14px;display:grid;gap:8px}
+.dr{display:grid;grid-template-columns:150px 1fr;gap:8px;align-items:center}.wd{font-weight:600;color:var(--a1)}
+.tx{display:grid;grid-template-columns:96px 1fr 38px;gap:6px;background:var(--card);border:1px solid var(--line);border-left:6px solid;border-radius:12px;padding:8px;margin-bottom:8px}
+.tx.i{border-left-color:var(--g)}.tx.e{border-left-color:var(--r)}
+.tx.i .amt{color:var(--g);font-weight:700}.tx.e .amt{color:var(--r);font-weight:700}
+.tx .dr{grid-column:1/-1}
+.cardx h3{margin:0 0 2px;color:var(--a1)}.lbl{font-size:13px;color:var(--mute)}
+.sw{display:flex;gap:10px;flex-wrap:wrap}.sw button{width:38px;height:38px;border-radius:50%;border:3px solid transparent;cursor:pointer}.sw button.on{border-color:var(--ink)}
+#pbig{width:84px;height:84px;border-radius:50%;background:var(--gA) center/cover;color:#fff;font-size:34px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:pointer}
+.credit{text-align:center;color:var(--mute);margin-top:6px;font-weight:600}
+.auth{position:fixed;inset:0;z-index:20;background:var(--gA);display:flex;align-items:center;justify-content:center;padding:20px}
+.auth .box{background:var(--card);border-radius:22px;padding:22px;width:100%;max-width:380px;display:grid;gap:10px;box-shadow:0 20px 40px -12px rgba(0,0,0,.5)}
+.auth h1{margin:0;text-align:center;color:var(--a1)}.err{color:var(--r);font-size:14px;min-height:18px}
+.lnk{background:none;border:0;color:var(--a1);font-weight:600;cursor:pointer;padding:6px}
+#modal{position:fixed;inset:0;background:rgba(10,15,30,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}
+#modal.on{display:flex}#modal div{background:var(--card);border-radius:16px;padding:20px;max-width:340px;width:100%}
+#modal .bs{display:flex;gap:8px;margin-top:14px}#modal button{flex:1;padding:11px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+#modal .y{background:var(--r);color:#fff}#modal .n{background:var(--inp)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 20px);background:#1f2937;color:#fff;padding:10px 16px;border-radius:12px;z-index:40;display:none}
+#cbox{position:fixed;inset:0;background:rgba(10,15,30,.7);display:none;align-items:center;justify-content:center;padding:20px;z-index:35}#cbox.on{display:flex}#cbox>div{background:var(--card);border-radius:18px;padding:20px;max-width:340px;width:100%;text-align:center}#cCode{font-size:32px;font-weight:700;letter-spacing:3px;margin:12px 0;color:var(--a1);user-select:all}
+#print{display:none}
+@media print{body>*:not(#print){display:none!important}body{background:#fff;padding:0}#print{display:block;color:#000;font-size:12px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#print h1{font-size:20px;margin:0}#print h2{font-size:15px;margin:14px 0 4px;color:#27308a}#print table{width:100%;border-collapse:collapse}
+#print th,#print td{border:1px solid #999;padding:3px 5px;text-align:left}#print th{background:#27308a;color:#fff}.pg{color:#047857;font-weight:700}.pr{color:#be123c;font-weight:700}}
+</style>
+</head>
+<body>
+
+<div class="auth" id="auth">
+  <div class="box">
+    <h1>🍚 <span data-i="app">মেসের হিসাব</span></h1>
+    <label class="lbl" id="aNameL" data-i="name">নাম</label>
+    <input id="aName" data-p="name" placeholder="নাম" autocomplete="name">
+    <label class="lbl" id="aPhoneL" data-i="phone">ফোন নাম্বার</label>
+    <input id="aPhone" type="tel" inputmode="tel" data-p="phone" placeholder="ফোন নাম্বার" autocomplete="tel">
+    <label class="lbl" id="aCodeL" data-i="code">রিকভারি কোড</label>
+    <input id="aCode" data-p="code" autocapitalize="characters" autocomplete="off">
+    <label class="lbl" id="aPassL">পাসওয়ার্ড</label>
+    <input id="aPass" type="password" data-p="pass" placeholder="পাসওয়ার্ড" autocomplete="current-password">
+    <label class="lbl" id="aBkL" data-i="bkPh"></label>
+    <textarea id="aBk" rows="4" style="resize:vertical;overflow:auto"></textarea>
+    <div class="err" id="aErr"></div>
+    <button class="btn" id="aGo" style="margin:0"></button>
+    <button class="lnk" id="aSw"></button>
+    <button class="lnk" id="aFg" data-i="forgot"></button>
+    <button class="lnk" id="aRs" data-i="restoreB"></button>
+    <div class="lbl" style="text-align:center" data-i="authNote"></div>
+  </div>
+</div>
+
+<div id="app" hidden>
+<header>
+  <div class="top"><div id="av"></div><b data-i="app"></b><button id="gear" aria-label="settings">⚙</button></div>
+  <div class="tabs" id="tabs">
+    <button class="on" data-t="meals" data-i="tm"></button>
+    <button data-t="exp" data-i="te"></button>
+    <button data-t="tx" data-i="tt"></button>
+  </div>
+</header>
+<main>
+  <div class="mbar" id="mbar"><input type="month" id="mon" aria-label="month"><input id="note" data-p="note"></div>
+
+  <section id="s-meals" class="on">
+    <h2 data-i="hm"></h2>
+    <div class="tbl"><table>
+      <colgroup><col style="width:34%"><col style="width:20%"><col><col style="width:36px"></colgroup>
+      <thead><tr><th data-i="date"></th><th data-i="meal"></th><th data-i="reason"></th><th></th></tr></thead>
+      <tbody id="meals"></tbody>
+      <tfoot><tr><td colspan="4" id="mtot"></td></tr></tfoot>
+    </table></div>
+  </section>
+
+  <section id="s-exp">
+    <h2 data-i="he"></h2>
+    <div id="esum"></div>
+    <div id="exps"></div>
+    <button class="btn" id="addExp" data-i="addExp"></button>
+  </section>
+
+  <section id="s-tx">
+    <h2 data-i="ht"></h2>
+    <div id="tsum"></div>
+    <div class="add">
+      <div class="sel"><button class="i on" data-type="i" data-i="inc"></button><button class="e" data-type="e" data-i="exp"></button></div>
+      <div class="dr"><input type="date" id="nDate"><span class="wd" id="nwd"></span></div>
+      <input id="nAmt" type="number" inputmode="decimal" min="0" data-p="amt">
+      <textarea class="ag" rows="1" id="nWhy" data-p="whyEx"></textarea>
+      <button class="btn" id="addTx" style="margin:0" data-i="add"></button>
+    </div>
+    <div id="txs"></div>
+  </section>
+
+  <section id="s-set">
+    <h2 data-i="set"></h2>
+    <div class="cardx">
+      <div id="pbig" title="photo"></div><input type="file" id="pic" accept="image/*" hidden>
+      <button class="lnk" id="picBtn" data-i="pic"></button>
+      <div style="text-align:center"><b id="pname" style="font-size:18px"></b><div class="lbl" id="pph"></div></div>
+      <button class="btn" id="chg" style="margin:0" data-i="chg"></button>
+      <div id="chgBox" hidden style="display:grid;gap:8px">
+        <span class="lbl" data-i="name"></span><input id="pn">
+        <span class="lbl" data-i="phone"></span><input id="pp" type="tel" inputmode="tel">
+        <span class="lbl" data-i="email"></span><input id="pe" type="email" inputmode="email">
+        <span class="lbl" data-i="oldp"></span><input id="po" type="password" autocomplete="current-password">
+        <span class="lbl" data-i="newp"></span><input id="pw" type="password" autocomplete="new-password">
+        <button class="btn" id="saveInfo" style="margin:0" data-i="save"></button>
+      </div>
+    </div>
+    <div class="cardx">
+      <span class="lbl" data-i="color"></span>
+      <div class="sw" id="sw"></div>
+      <span class="lbl" data-i="mode"></span>
+      <select id="mode"><option value="auto" data-i="mAuto"></option><option value="light" data-i="mLight"></option><option value="dark" data-i="mDark"></option></select>
+      <span class="lbl" data-i="lang"></span>
+      <select id="lang"><option value="bn">বাংলা</option><option value="en">English</option></select>
+    </div>
+    <div class="cardx">
+      <h3 data-i="dl"></h3><span class="lbl" data-i="dlh"></span>
+      <input type="month" id="pdfm"><button class="btn" id="pdfBtn" style="margin:0" data-i="dl"></button>
+    </div>
+    <div class="cardx"><h3 data-i="secT"></h3><span class="lbl" data-i="bkH"></span>
+      <button class="btn" id="newCode" style="margin:0" data-i="newCode"></button>
+      <button class="btn" id="mkBk" style="margin:0" data-i="mkBk"></button>
+      <textarea id="bkOut" rows="4" hidden readonly style="overflow:auto"></textarea></div>
+    <button class="btn" id="out" style="background:var(--gR)" data-i="out"></button>
+    <div class="credit">Developed by Rahat</div>
+  </section>
+</main>
+</div>
+
+<div id="cbox"><div><b data-i="codeT"></b><div id="cCode"></div><p class="lbl" data-i="codeH"></p><button class="btn" id="cOk" style="margin:0" data-i="codeOk"></button></div></div>
+<div id="print"></div>
+<div id="modal"><div><p id="mmsg" style="margin:0;font-size:17px;font-weight:600"></p><div class="bs"><button class="n" id="mno"></button><button class="y" id="myes"></button></div></div></div>
+<div id="toast"></div>
+
+<script>
+const KEY='mh2';
+let DB={users:{},session:'',ui:{lang:'bn',acc:'indigo',mode:'auto'}};
+try{const r=JSON.parse(localStorage.getItem(KEY));if(r)DB=Object.assign(DB,r)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const T={app:['মেসের হিসাব','Mess Ledger'],tm:['মিল হিসাব','Meals'],te:['মাসিক খরচ','Costs'],tt:['আয় - ব্যায়','In / Out'],hm:['মিল হিসাব','Meal Log'],he:['মাসিক মেস খরচ','Monthly Mess Cost'],ht:['আয় - ব্যায়','Income - Expense'],
+note:['নোট (ঐচ্ছিক)','Note (optional)'],date:['তারিখ','Date'],meal:['মিল','Meal'],reason:['বাদের কারণ','Skip reason'],why:['কেন বাদ?','Why skipped?'],totMeal:['মোট মিল','Total meals'],days:['দিন','days'],
+due:['মোট খরচ (বাকি)','Total due'],all:['সব খরচের যোগফল','All expenses'],paid:['পরিশোধ হয়েছে','Paid'],addExp:['+ নতুন খরচ যোগ করুন','+ Add expense'],item:['খরচের খাত (যেমন: বাসা ভাড়া)','Expense item (e.g. Rent)'],amt:['টাকা','Amount'],
+isPaid:['✔ জমা দেওয়া হয়েছে','✔ Paid'],notPaid:['জমা দেওয়া বাকি','Not paid yet'],inc:['আয়','Income'],exp:['ব্যায়','Expense'],tInc:['মোট আয়','Total income'],tExp:['মোট ব্যায়','Total expense'],bal:['অবশিষ্ট জমা','Balance'],
+whyEx:['কারণ / কোথায় খরচ','Reason / where spent'],add:['যোগ করুন','Add'],ask:['আপনি কি নিশ্চিত যে এটি মুছে ফেলতে চান?','Are you sure you want to delete this?'],yes:['মুছে ফেলুন','Delete'],no:['বাদ দিন','Cancel'],emp:['কিছু যোগ করা নেই।','Nothing added yet.'],
+set:['সেটিংস','Settings'],name:['নাম','Name'],phone:['ফোন নাম্বার','Phone number'],email:['ইমেইল','Email'],pic:['ছবি পরিবর্তন','Change photo'],color:['রঙ','Color'],mode:['থিম','Theme'],mAuto:['অটো','Auto'],mLight:['লাইট','Light'],mDark:['ডার্ক','Dark'],
+lang:['ভাষা','Language'],dl:['PDF ডাউনলোড','Download PDF'],dlh:['মাস ও সাল বেছে নিন','Choose month & year'],out:['লগ আউট','Log out'],forgot:['পাসওয়ার্ড ভুলে গেছেন?','Forgot password?'],restoreB:['ব্যাকআপ থেকে ফিরিয়ে আনুন','Restore from backup'],back:['← লগ ইন-এ ফিরুন','← Back to log in'],resetP:['পাসওয়ার্ড রিসেট করুন','Reset password'],code:['রিকভারি কোড','Recovery code'],eRec:['ফোন নাম্বার বা রিকভারি কোড ভুল','Wrong phone number or recovery code'],eBk:['ব্যাকআপ কোড ঠিক নেই','Invalid backup code'],bkPh:['ব্যাকআপ কোড এখানে পেস্ট করুন','Paste backup code here'],newCode:['নতুন রিকভারি কোড বানান','Generate new recovery code'],mkBk:['ব্যাকআপ কোড তৈরি ও কপি করুন','Create & copy backup code'],bkDone:['কপি হয়েছে। নোট বা মেসেজে সেভ রাখুন','Copied. Save it in a note or message'],codeT:['আপনার রিকভারি কোড','Your recovery code'],codeH:['এটি লিখে বা স্ক্রিনশট করে রাখুন। পাসওয়ার্ড ভুললে এটি লাগবে। আর দেখানো হবে না।','Write it down or take a screenshot. You need it if you forget your password. It will not be shown again.'],codeOk:['লিখে রেখেছি','I saved it'],cfmR:['এই ফোন নাম্বারের বর্তমান ডেটা ব্যাকআপ দিয়ে বদলে যাবে। চালিয়ে যাবেন?','Current data for this number will be replaced by the backup. Continue?'],secT:['নিরাপত্তা ও ব্যাকআপ','Security & backup'],bkH:['ব্যাকআপ কোড কপি করে নোটে বা মেসেজে সেভ রাখুন। অন্য ফোনে লগ ইন পেজ থেকে সেটা দিয়ে ফিরিয়ে আনা যাবে।','Save the backup code in a note or message. On another phone, restore it from the log-in page.'],cfm:['আপনি কি এই তথ্যগুলো পরিবর্তন করতে চান?','Do you want to apply these changes?'],yesSave:['হ্যাঁ, পরিবর্তন করুন','Yes, change'],chg:['তথ্য পরিবর্তন (নাম, ফোন, পাসওয়ার্ড)','Change info (name, phone, password)'],oldp:['বর্তমান পাসওয়ার্ড (পাসওয়ার্ড বদলাতে লাগবে)','Current password (needed to change password)'],newp:['নতুন পাসওয়ার্ড','New password'],save:['সেভ করুন','Save'],saved:['সেভ হয়েছে','Saved'],eOld:['বর্তমান পাসওয়ার্ড ভুল','Current password is wrong'],login:['লগ ইন','Log in'],reg:['অ্যাকাউন্ট খুলুন','Create account'],pass:['পাসওয়ার্ড','Password'],
+toReg:['নতুন? অ্যাকাউন্ট খুলুন','New? Create account'],toLog:['আগে থেকে আছে? লগ ইন','Have an account? Log in'],eFill:['সব ঘর পূরণ করুন (পাসওয়ার্ড কমপক্ষে ৪ অক্ষর)','Fill all fields (password min 4 chars)'],
+eDup:['এই ফোন নাম্বার আগে থেকেই আছে','This phone number already exists'],eBad:['ফোন নাম্বার বা পাসওয়ার্ড ভুল','Wrong phone number or password'],authNote:['প্রাইভেসির জন্য লগ ইন। তথ্য শুধু এই ডিভাইসে থাকে।','Login is for privacy. Data stays on this device.']};
+const L=()=>DB.ui.lang==='en'?1:0,t=k=>T[k][L()];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WS=[['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'],['Sun','Mon','Tue','Wed','Thu','Fri','Sat']];
+const WF=[['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']];
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),today=()=>iso(new Date());
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dg=s=>L()?String(s):String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+const num=n=>Number(n||0).toLocaleString(L()?'en-US':'bn-BD',{maximumFractionDigits:2});
+const dayLabel=dt=>dg(pad(dt.getDate()))+' '+MON[dt.getMonth()]+'-('+WS[L()][dt.getDay()]+')';
+const pd=s=>new Date(s+'T00:00:00'),wd=s=>s?WF[L()][pd(s).getDay()]:'',shortD=s=>{const d=pd(s);return dg(pad(d.getDate()))+' '+MON[d.getMonth()]};
+const me=()=>DB.users[DB.session];
+let cur=today().slice(0,7),txType='i',tab='meals';
+const R=(k=cur)=>{const d=me().data;return d[k]||(d[k]={note:'',meals:{},exp:[],tx:[]})};
+const ag=el=>{el.style.height='auto';if(el.scrollHeight)el.style.height=el.scrollHeight+'px'};
+const toast=m=>{const e=$('#toast');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+
+async function hash(p,s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+p));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=0;for(const c of s+p)h=(h*31+c.charCodeAt(0))|0;return'f'+h}}
+let authMode=Object.keys(DB.users).length?'login':'reg';
+const norm=c=>String(c).toUpperCase().replace(/[^A-Z0-9]/g,'');
+const genCode=()=>{const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789',r=crypto.getRandomValues(new Uint8Array(8));return[...r].map(x=>a[x%a.length]).join('')};
+const showCode=c=>{$('#cCode').textContent=c.slice(0,4)+'-'+c.slice(4);$('#cbox').classList.add('on')};
+$('#cOk').onclick=()=>$('#cbox').classList.remove('on');
+function authUI(){const m=authMode,h=(id,v)=>{$('#'+id).hidden=v;$('#'+id+'L').hidden=v};
+  h('aName',m!=='reg');h('aPhone',m==='rest');h('aCode',m!=='rec');h('aPass',m==='rest');h('aBk',m!=='rest');
+  $('#aPassL').textContent=t(m==='rec'?'newp':'pass');
+  $('#aGo').textContent=t({reg:'reg',login:'login',rec:'resetP',rest:'restoreB'}[m]);
+  $('#aSw').textContent=t(m==='login'?'toReg':m==='reg'?'toLog':'back');
+  $('#aFg').hidden=m!=='login';$('#aRs').hidden=m==='rec'||m==='rest';$('#aErr').textContent=''}
+$('#aSw').onclick=()=>{authMode=authMode==='login'?'reg':'login';authUI()};
+$('#aFg').onclick=()=>{authMode='rec';authUI()};
+$('#aRs').onclick=()=>{authMode='rest';authUI()};
+function restore(){
+  let o;try{o=JSON.parse(decodeURIComponent(escape(atob($('#aBk').value.trim()))))}catch(e){}
+  const u=o&&o.u;if(!u||!u.phone||!u.hash||!u.salt){$('#aErr').textContent=t('eBk');return}
+  u.photo=u.photo||'';u.data=u.data||{};
+  const go=()=>{DB.users[u.phone]=u;save();authMode='login';authUI();$('#aPhone').value=u.phone;$('#aBk').value='';toast(t('saved'))};
+  DB.users[u.phone]?ask(go,'cfmR','yesSave'):go();
+}
+$('#aGo').onclick=async()=>{const m=authMode,er=$('#aErr');
+  if(m==='rest')return restore();
+  const n=$('#aName').value.trim(),ph=$('#aPhone').value.replace(/\D/g,''),pw=$('#aPass').value;
+  if(ph.length<6||pw.length<4||(m==='reg'&&!n)){er.textContent=t('eFill');return}
+  if(m==='reg'){
+    if(DB.users[ph]){er.textContent=t('eDup');return}
+    const salt=uid(),c=genCode(),rs=uid();
+    DB.users[ph]={name:n,phone:ph,email:'',photo:'',salt,hash:await hash(pw,salt),rs,rh:await hash(c,rs),data:{}};
+    DB.session=ph;save();$('#aPass').value='';start();showCode(c);return}
+  const u=DB.users[ph];
+  if(m==='rec'){if(!u||!u.rh||u.rh!==await hash(norm($('#aCode').value),u.rs)){er.textContent=t('eRec');return}
+    u.salt=uid();u.hash=await hash(pw,u.salt)}
+  else if(!u||u.hash!==await hash(pw,u.salt)){er.textContent=t('eBad');return}
+  DB.session=ph;save();$('#aPass').value='';$('#aCode').value='';authMode='login';start()};
+
+function i18n(){
+  $$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+  $$('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
+  document.documentElement.lang=L()?'en':'bn';document.title=t('app');
+}
+function theme(){const r=document.documentElement;r.dataset.acc=DB.ui.acc;DB.ui.mode==='auto'?r.removeAttribute('data-theme'):r.dataset.theme=DB.ui.mode}
+function start(){$('#auth').hidden=true;$('#app').hidden=false;$('#mon').value=cur;$('#nDate').value=today();renderAll();setTab('meals')}
+function setTab(n){tab=n;
+  $$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===n));
+  $$('section').forEach(s=>s.classList.toggle('on',s.id==='s-'+n));
+  $('#mbar').hidden=n==='set';scrollTo(0,0);$$('textarea.ag').forEach(ag)}
+
+const MV=['',0,0.5,1,1.5,2,2.5];
+function renderMeals(){
+  const[y,m]=cur.split('-').map(Number),n=new Date(y,m,0).getDate(),r=R();let h='';
+  for(let d=1;d<=n;d++){const dt=new Date(y,m-1,d),e=r.meals[d]||{},v=e.m;
+    h+=`<tr class="${dt.getDay()===5?'fri':''}"><td class="dl">${dayLabel(dt)}</td>
+    <td><select class="m ${v===0?'z':v>=2?'f':''}" data-s="meals" data-d="${d}" data-k="m" data-n="1">${MV.map(o=>`<option value="${o}" ${String(v??'')===String(o)?'selected':''}>${o===''?'–':num(o)}</option>`).join('')}</select></td>
+    <td><textarea class="ag" rows="1" data-s="meals" data-d="${d}" data-k="skip" placeholder="${t('why')}">${esc(e.skip)}</textarea></td>
+    <td><button class="del" data-clr="${d}" aria-label="clear">✕</button></td></tr>`}
+  $('#meals').innerHTML=h;
+}
+function renderExp(){
+  const r=R();
+  $('#exps').innerHTML=r.exp.length?r.exp.map(x=>`<div class="item ${x.paid?'p':'u'}">
+    <textarea class="ag" rows="1" placeholder="${t('item')}" data-s="exp" data-id="${x.id}" data-k="name">${esc(x.name)}</textarea>
+    <input type="number" inputmode="decimal" placeholder="${t('amt')}" value="${x.amt??''}" data-s="exp" data-id="${x.id}" data-k="amt" data-n="1">
+    <div class="bar"><button class="tog" data-paid="${x.id}">${x.paid?t('isPaid')+(x.pd?' • '+shortD(x.pd):''):t('notPaid')}</button><button class="del" data-del="exp:${x.id}" aria-label="delete">✕</button></div></div>`).join(''):`<div class="empty">${t('emp')}</div>`;
+}
+function renderTx(){
+  const r=R();
+  $('#txs').innerHTML=r.tx.length?r.tx.map(x=>`<div class="tx ${x.type}">
+    <div class="dr"><input type="date" value="${esc(x.date)}" data-s="tx" data-id="${x.id}" data-k="date"><span class="wd">${wd(x.date)}</span></div>
+    <input class="amt" type="number" inputmode="decimal" value="${x.amt??''}" data-s="tx" data-id="${x.id}" data-k="amt" data-n="1">
+    <textarea class="ag" rows="1" placeholder="${t('whyEx')}" data-s="tx" data-id="${x.id}" data-k="why">${esc(x.why)}</textarea>
+    <button class="del" data-del="tx:${x.id}" aria-label="delete">✕</button></div>`).join(''):`<div class="empty">${t('emp')}</div>`;
+}
+function sums(r){
+  const mt=Object.values(r.meals).reduce((a,e)=>a+Number(e.m||0),0);
+  const all=r.exp.reduce((a,x)=>a+Number(x.amt||0),0),pd_=r.exp.filter(x=>x.paid).reduce((a,x)=>a+Number(x.amt||0),0);
+  const inc=r.tx.filter(x=>x.type==='i').reduce((a,x)=>a+Number(x.amt||0),0),ex=r.tx.filter(x=>x.type==='e').reduce((a,x)=>a+Number(x.amt||0),0);
+  return{mt,all,paid:pd_,due:all-pd_,inc,ex,bal:inc-ex};
+}
+function totals(){
+  const r=R(),s=sums(r),nd=new Date(cur.slice(0,4),cur.slice(5),0).getDate();
+  $('#mtot').textContent=t('totMeal')+': '+num(s.mt)+' ('+dg(nd)+' '+t('days')+')';
+  $('#esum').innerHTML=`<div class="hero ${s.due>0?'r':'g'}"><div class="lb">${t('due')}</div><div class="big">৳ ${num(s.due)}</div>
+    <div class="ln"><span>${t('all')}</span><span>৳ ${num(s.all)}</span></div><div class="ln"><span>${t('paid')}</span><span>− ৳ ${num(s.paid)}</span></div></div>`;
+  $('#tsum').innerHTML=`<div class="kpi"><div class="hero g"><div class="lb">${t('tInc')}</div><div class="big">৳ ${num(s.inc)}</div></div><div class="hero r"><div class="lb">${t('tExp')}</div><div class="big">৳ ${num(s.ex)}</div></div></div>
+    <div class="hero ${s.bal<0?'r':'a'}"><div class="lb">${t('bal')}</div><div class="big">৳ ${num(s.bal)}</div></div>`;
+}
+function renderSet(){
+  const u=me();
+  $('#pn').value=u.name;$('#pp').value=u.phone;$('#pe').value=u.email||'';$('#po').value='';$('#pw').value='';$('#pname').textContent=u.name;$('#pph').textContent=u.phone;
+  $('#lang').value=DB.ui.lang;$('#mode').value=DB.ui.mode;$('#pdfm').value=$('#pdfm').value||cur;
+  const pb=$('#pbig');pb.style.backgroundImage=u.photo?`url(${u.photo})`:'';pb.textContent=u.photo?'':(u.name[0]||'?');
+  const av=$('#av');av.style.backgroundImage=u.photo?`url(${u.photo})`:'';av.textContent=u.photo?'':(u.name[0]||'?');
+  $('#sw').innerHTML=[['indigo','#4f5bd5','#27308a'],['ocean','#2f6fe4','#0f2a6b'],['teal','#12a7b5','#0a3f5c'],['violet','#7c4dff','#2e1175'],['rose','#c0587a','#5a1633'],['gold','#b98a2c','#4f3408'],['graphite','#4b5563','#0b1020']].map(c=>`<button data-acc="${c[0]}" class="${DB.ui.acc===c[0]?'on':''}" style="background:linear-gradient(135deg,${c[1]},${c[2]})" aria-label="${c[0]}"></button>`).join('');
+}
+function renderAll(){i18n();theme();$('#mon').value=cur;$('#note').value=R().note||'';renderMeals();renderExp();renderTx();renderSet();totals();$('#nwd').textContent=wd($('#nDate').value||today());$$('textarea.ag').forEach(ag)}
+
+document.addEventListener('input',e=>{const x=e.target;
+  if(x.classList.contains('ag'))ag(x);
+  const s=x.dataset.s;if(!s)return;
+  const r=R();let it=s==='meals'?(r.meals[x.dataset.d]||(r.meals[x.dataset.d]={})):r[s].find(i=>i.id===x.dataset.id);if(!it)return;
+  it[x.dataset.k]=x.dataset.n?(x.value===''?'':Number(x.value)):x.value;
+  if(x.tagName==='SELECT'){const v=it.m;x.className='m '+(v===0?'z':v>=2?'f':'')}
+  if(x.dataset.k==='date'){const w=x.parentNode.querySelector('.wd');if(w)w.textContent=wd(x.value)}
+  save();totals();
+});
+let pend=null;
+const ask=(fn,mk='ask',yk='yes')=>{$('#mmsg').textContent=t(mk);$('#mno').textContent=t('no');$('#myes').textContent=t(yk);$('#myes').style.background=yk==='yes'?'':'var(--gA)';pend=fn;$('#modal').classList.add('on')};
+$('#mno').onclick=()=>{$('#modal').classList.remove('on');pend=null};
+$('#myes').onclick=()=>{$('#modal').classList.remove('on');if(pend)pend();pend=null};
+document.addEventListener('click',e=>{const q=k=>e.target.closest(k);let b;
+  if(b=q('[data-clr]')){ask(()=>{delete R().meals[b.dataset.clr];save();renderMeals();totals()});return}
+  if(b=q('[data-del]')){const[s,id]=b.dataset.del.split(':');ask(()=>{const r=R();r[s]=r[s].filter(x=>x.id!==id);save();s==='exp'?renderExp():renderTx();totals();$$('textarea.ag').forEach(ag)});return}
+  if(b=q('[data-paid]')){const x=R().exp.find(i=>i.id===b.dataset.paid);x.paid=!x.paid;x.pd=x.paid?today():'';save();renderExp();totals();$$('textarea.ag').forEach(ag);return}
+  if(b=q('[data-t]')){setTab(b.dataset.t);return}
+  if(b=q('[data-type]')){txType=b.dataset.type;$$('.sel button').forEach(x=>x.classList.toggle('on',x===b));return}
+  if(b=q('[data-acc]')){DB.ui.acc=b.dataset.acc;save();theme();renderSet()}
+});
+$('#gear').onclick=()=>setTab(tab==='set'?'meals':'set');
+$('#addExp').onclick=()=>{R().exp.push({id:uid(),name:'',amt:'',paid:false,pd:''});save();renderExp();totals()};
+$('#nDate').onchange=$('#nDate').oninput=()=>$('#nwd').textContent=wd($('#nDate').value);
+$('#addTx').onclick=()=>{const a=Number($('#nAmt').value);if(!a){$('#nAmt').focus();return}
+  R().tx.unshift({id:uid(),type:txType,amt:a,why:$('#nWhy').value,date:$('#nDate').value||today()});
+  $('#nAmt').value='';$('#nWhy').value='';ag($('#nWhy'));save();renderTx();totals();$$('textarea.ag').forEach(ag)};
+$('#mon').onchange=()=>{if($('#mon').value){cur=$('#mon').value;renderAll()}};
+$('#note').oninput=()=>{R().note=$('#note').value;save()};
+
+$('#newCode').onclick=async()=>{const u=me(),c=genCode();u.rs=uid();u.rh=await hash(c,u.rs);save();showCode(c)};
+$('#mkBk').onclick=()=>{const u=Object.assign({},me(),{photo:''}),str=btoa(unescape(encodeURIComponent(JSON.stringify({v:1,u})))),o=$('#bkOut');
+  o.hidden=false;o.value=str;o.select();try{navigator.clipboard.writeText(str).then(()=>toast(t('bkDone')),()=>{})}catch(e){}};
+$('#chg').onclick=()=>{const b=$('#chgBox');b.hidden=!b.hidden};
+$('#saveInfo').onclick=async()=>{const u=me(),o=DB.session,n=$('#pp').value.replace(/\D/g,''),nm=$('#pn').value.trim(),np=$('#pw').value;
+  if(!nm||n.length<6||(np&&np.length<4)){toast(t('eFill'));return}
+  if(n!==o&&DB.users[n]){toast(t('eDup'));return}
+  if(np&&u.hash!==await hash($('#po').value,u.salt)){toast(t('eOld'));return}
+  ask(async()=>{
+    if(np){u.salt=uid();u.hash=await hash(np,u.salt)}
+    u.name=nm;u.email=$('#pe').value;
+    if(n!==o){u.phone=n;DB.users[n]=u;delete DB.users[o];DB.session=n}
+    save();renderSet();$('#chgBox').hidden=true;toast(t('saved'))},'cfm','yesSave')};
+$('#picBtn').onclick=$('#pbig').onclick=()=>$('#pic').click();
+$('#pic').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),s=Math.min(im.width,im.height);c.width=c.height=160;
+    c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);me().photo=c.toDataURL('image/jpeg',.8);save();renderSet()};im.src=rd.result};rd.readAsDataURL(f)};
+$('#lang').onchange=()=>{DB.ui.lang=$('#lang').value;save();renderAll();authUI()};
+$('#mode').onchange=()=>{DB.ui.mode=$('#mode').value;save();theme()};
+$('#out').onclick=()=>{DB.session='';save();$('#app').hidden=true;$('#auth').hidden=false;authMode='login';authUI()};
+
+function pdf(key){
+  const u=me(),r=u.data[key]||{note:'',meals:{},exp:[],tx:[]},[y,m]=key.split('-').map(Number),n=new Date(y,m,0).getDate(),s=sums(r);
+  let a='';for(let d=1;d<=n;d++){const e=r.meals[d]||{};a+=`<tr><td>${dayLabel(new Date(y,m-1,d))}</td><td>${e.m===''||e.m==null?'':num(e.m)}</td><td>${esc(e.skip)}</td></tr>`}
+  const b=r.exp.map(x=>`<tr><td>${esc(x.name)}</td><td>৳ ${num(x.amt)}</td><td class="${x.paid?'pg':'pr'}">${x.paid?t('isPaid')+(x.pd?' • '+shortD(x.pd):''):t('notPaid')}</td></tr>`).join('');
+  const c=r.tx.map(x=>`<tr><td>${shortD(x.date)} (${wd(x.date)})</td><td class="${x.type==='i'?'pg':'pr'}">${x.type==='i'?'+':'−'} ৳ ${num(x.amt)}</td><td>${esc(x.why)}</td></tr>`).join('');
+  $('#print').innerHTML=`<h1>${t('app')} — ${MON[m-1]} ${dg(y)}</h1><p><b>${esc(u.name)}</b> • ${esc(u.phone)}${r.note?' • '+esc(r.note):''}</p>
+  <h2>${t('hm')}</h2><table><tr><th>${t('date')}</th><th>${t('meal')}</th><th>${t('reason')}</th></tr>${a}<tr><td><b>${t('totMeal')}</b></td><td colspan="2"><b>${num(s.mt)}</b></td></tr></table>
+  <h2>${t('he')}</h2><table><tr><th>${t('item').split(' (')[0]}</th><th>${t('amt')}</th><th></th></tr>${b}<tr><td><b>${t('due')}</b></td><td colspan="2"><b>৳ ${num(s.due)}</b> (${t('all')}: ৳ ${num(s.all)})</td></tr></table>
+  <h2>${t('ht')}</h2><table><tr><th>${t('date')}</th><th>${t('amt')}</th><th>${t('whyEx')}</th></tr>${c}<tr><td><b>${t('tInc')} / ${t('tExp')}</b></td><td colspan="2">৳ ${num(s.inc)} / ৳ ${num(s.ex)}</td></tr><tr><td><b>${t('bal')}</b></td><td colspan="2"><b>৳ ${num(s.bal)}</b></td></tr></table>`;
+  const old=document.title;document.title='Mess-Hisab-'+key;window.print();setTimeout(()=>document.title=old,1500);
+}
+$('#pdfBtn').onclick=()=>pdf($('#pdfm').value||cur);
+
+theme();i18n();authUI();
+if(DB.session&&DB.users[DB.session])start();
+</script>
+</body>
+</html>
